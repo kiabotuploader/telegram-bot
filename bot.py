@@ -1,25 +1,19 @@
-import os
-import sys
-from telegram.ext import ApplicationBuilder, CommandHandler, MessageHandler, filters
+from telegram import Update
+from telegram.ext import ApplicationBuilder, CommandHandler, ContextTypes
 
-BOT_TOKEN = os.environ.get("BOT_TOKEN")
-OWNER_ID = os.environ.get("OWNER_ID")
+# توکن رباتت را اینجا قرار بده
+BOT_TOKEN = "ت8272792867:AAGRALibbwMjgacL1E4QB827byav5tyKGoo"
 
-if not BOT_TOKEN:
-    print("❌ BOT_TOKEN environment variable is missing")
-    sys.exit(1)
+async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    await update.message.reply_text("سلام! ربات آماده است.")
 
-print("✅ Starting bot with token loaded...")
-
-async def start(update, context):
-    await update.message.reply_text("سلام! من رباتم 😊")
-
-async def echo(update, context):
-    await update.message.reply_text(update.message.text)
-
-if __name__ == '__main__':
-    print("🚀 Bot started, polling Telegram…")
+if __name__ == "__main__":
+    # ساخت اپلیکیشن و اجرای Polling
     app = ApplicationBuilder().token(BOT_TOKEN).build()
+    
+    # اضافه کردن Handler برای دستور /start
     app.add_handler(CommandHandler("start", start))
-    app.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, echo))
+    
+    # اجرای ربات
     app.run_polling()
+
